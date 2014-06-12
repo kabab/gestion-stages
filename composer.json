@@ -1,0 +1,13 @@
+{
+    "name": "fstm/gestion-stages",
+    "description": "Mini projet",
+    "authors": [
+        {
+            "name": "ybouhjira",
+            "email": "b.youssef91@gmail.com"
+        }
+    ],
+    "require": {
+
+    }
+}
