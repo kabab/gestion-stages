@@ -20,19 +20,88 @@
 
   */
 
-class Post {
+require_once 'database.php';
 
-  private $pdo;
 
-  public function getPosts() {
-    /*
+class Post extends Database{
 
-    $stm = $pdo->prepare(...);
-    
-    $stm->execute();
+  public $table = 'POST';
+  protected $dbh = null;
 
-    return ...
-    */
+  function __construct($par){
+    $this->dbh = $par
+  }
+  public function editPost($data, $condition = null){
+    $query = "UPDATE ".$this->table." SET ";
+    foreach ($data as $key => $value) {
+      $query .= "$key = '$value' ,";
+    }
+    $query = substr($query, 0,strlen($query)-1);
+    if($condition != null ){
+      $query .= 'where ';
+      foreach ($condition as $key => $value) {
+        $query .= "$key = '$value' and ";
+      } 
+      $query = substr($query, 0,strlen($query)-4);
+    }
+    $sth = $this->dbh->prepare($query);
+    $sth->execute();
+  }  
+
+  public function addPost($data){
+    $query = "INSERT INTO ".$this->table."(";
+    $struct = "";
+    $values = " VALUES(";
+    foreach ($data as $key => $value) {
+      $struct .= "$key,";
+      $values .= ":$key,"; 
+    }
+    $struct = substr($struct, 0, strlen($struct)-1).")";
+    $values = substr($values, 0, strlen($values)-1).")";
+    $query .= $struct.$values;
+    $sth = $this->dbh->prepare($query);
+    $sth->execute($data);
+  }
+
+  // 
+
+  function delete($condition=array('1' => '1')){
+    $query = "delete from ".$this->table." WHERE";
+    $values = array();
+    foreach ($condition as $key => $value) {
+      $query .= " $key = ? AND ";
+      $values[] = $value;
+    }
+    $query = substr($query, 0, strlen($query)-4);
+    if($this->id != null){
+      $query .= ' AND '.$this->primaryKey.' = ? ';
+      $values[] = $this->id;
+
+    }
+    $stmt = $this->dbh->prepare($query);
+    return $stmt->execute($values);
+  }
+
+
+  public function getPosts($condition=array('1'=>'1')) {
+    $query = 'SELECT ';
+    // @var array will contain execute parametres 
+    $exec_param = array();
+    // add fields name to the query
+    // array will contain field0 , filed1 ... field$n
+    $fields_names = array();
+    // iniale fields counter 
+    $query .= " * FROM ".$this->table." WHERE ";
+    // add conditions
+    foreach ($condition as $key => $value) {
+      $query .= $key.' = ? AND ';
+      $exec_param[] = $value;
+    }
+    $query = substr($query, 0,strlen($query)-4);
+    $sth = $this->dbh->prepare($query);
+    $sth->execute($exec_param);
+    $result = $sth->fetchAll();
+    return $result;
   }
 
 }
