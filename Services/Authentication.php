@@ -56,6 +56,17 @@ class Authentication {
     }
     
     /**
+     * Logout the user
+     * redirect after this to /login
+     */
+    public function logout() {
+        $session = new Session();
+        $session->remove('userRole');
+        $session->remove('userId');
+        $session->remove('hash');
+    }
+    
+    /**
      * @return type True if the user is authentified
      */
     public function userIsAuthentified() {
