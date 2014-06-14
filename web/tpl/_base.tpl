@@ -11,6 +11,6 @@
         <script src="web/css/bootstrap-3.1.1-dist/js/bootstrap.min.js"></script>
     </head>
     <body>
-
+       {block body}{/block}
     </body>
 </html>
