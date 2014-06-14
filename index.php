@@ -53,3 +53,5 @@ $klein->respond('/login', function($request, $response, $service, $app) {
 });
 
 $klein->dispatch();
+
+require 'forum.php';
