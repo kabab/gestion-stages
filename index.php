@@ -50,18 +50,4 @@ $klein->respond('/login', function($request, $response, $service, $app) {
     return $app->smarty->fetch(__DIR__ . '/web/tpl/login.tpl');
 });
 
-$klein->respond('/web/[*]/[*].[*:extension]', function($request, $response, $service, $app) {
-    $path = __DIR__ . $request->pathname();
-    $finfo = finfo_open(FILEINFO_MIME_TYPE);
-
-    $extension = $request->extension;
-    $mimeType = finfo_file($finfo, $path);
-
-    if ($mimeType == 'text/plain' && $extension == 'js') {
-        $mimeType = 'application/javascript';
-    }
-
-    return $response->file($path, null, $mimeType);
-});
-
 $klein->dispatch();
