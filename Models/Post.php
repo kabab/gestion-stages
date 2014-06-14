@@ -19,17 +19,13 @@
   });
 
   */
-
-require_once 'database.php';
-
-
-class Post extends Database{
+class Post{
 
   public $table = 'POST';
   protected $dbh = null;
 
   function __construct($par){
-    $this->dbh = $par
+    $this->dbh = $par;
   }
   public function editPost($data, $condition = null){
     $query = "UPDATE ".$this->table." SET ";
