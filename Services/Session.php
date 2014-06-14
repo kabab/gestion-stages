@@ -28,5 +28,12 @@ class Session {
     public function __set($name, $value) {
         $_SESSION[$name] = $value;
     }
+    
+    public function remove($name) {
+        unset($_SESSION[$name]);
+    }
+    
+    
+
 
 }
