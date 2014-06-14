@@ -24,6 +24,19 @@ $klein->respond(function($request, $response, $service, $app) {
 
         return $smarty;
     });
+
+    // PDO
+    $app->register('pdo', function() {
+        $host = "localhost";
+        $database = "stages";
+        $user = 'root';
+        $pass = 'password';
+
+        $pdo = new PDO("mysql:host=$host;dbname=$database", $user, $pass);
+        $pdo->query("SET NAMES 'utf8'");
+        
+        return $pdo;
+    });
 });
 
 /**
