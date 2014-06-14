@@ -1,0 +1,5 @@
+RewriteEngine On
+RewriteBase /
+RewriteRule ^(web)($|/) - [L]
+RewriteRule .* index.php [L] 
+
