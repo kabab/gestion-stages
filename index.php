@@ -1,5 +1,9 @@
 <?php
 
+if (preg_match('/\.(?:png|jpg|jpeg|gif|js|css)$/', $_SERVER["REQUEST_URI"])) {
+    return false;    // serve the requested resource as-is.
+}
+
 require 'vendor/autoload.php';
 require 'Services/autoload.php';
 
@@ -34,7 +38,7 @@ $klein->respond(function($request, $response, $service, $app) {
 
         $pdo = new PDO("mysql:host=$host;dbname=$database", $user, $pass);
         $pdo->query("SET NAMES 'utf8'");
-        
+
         return $pdo;
     });
 });
@@ -44,6 +48,20 @@ $klein->respond(function($request, $response, $service, $app) {
  */
 $klein->respond('/login', function($request, $response, $service, $app) {
     return $app->smarty->fetch(__DIR__ . '/web/tpl/login.tpl');
+});
+
+$klein->respond('/web/[*]/[*].[*:extension]', function($request, $response, $service, $app) {
+    $path = __DIR__ . $request->pathname();
+    $finfo = finfo_open(FILEINFO_MIME_TYPE);
+
+    $extension = $request->extension;
+    $mimeType = finfo_file($finfo, $path);
+
+    if ($mimeType == 'text/plain' && $extension == 'js') {
+        $mimeType = 'application/javascript';
+    }
+
+    return $response->file($path, null, $mimeType);
 });
 
 $klein->dispatch();

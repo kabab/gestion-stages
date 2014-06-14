@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* Nom de SGBD :  MySQL 5.0                                     */
-/* Date de création :  13/06/2014 20:46:48                      */
+/* Date de création :  14/06/2014 17:30:19                      */
 /*==============================================================*/
 
 
@@ -111,7 +111,7 @@ create table ETUDIANT
 create table FICHIER
 (
    ID_FICH              int not null,
-   ID_PROJ              int not null,
+   ID_COMMENT           int not null,
    primary key (ID_FICH)
 );
 
@@ -244,8 +244,8 @@ alter table ENCADRANTENTREPRISE add constraint FK_TRAVAILLE foreign key (ID_ENTR
 alter table ETUDIANT add constraint FK_UTILISATEURETUDIANT foreign key (ID_UTILIS)
       references UTILISATEUR (ID_UTILIS) on delete restrict on update restrict;
 
-alter table FICHIER add constraint FK_JOINDRE foreign key (ID_PROJ)
-      references PROJET (ID_PROJ) on delete restrict on update restrict;
+alter table FICHIER add constraint FK_JOINDRE foreign key (ID_COMMENT)
+      references COMMENTAIRE (ID_COMMENT) on delete restrict on update restrict;
 
 alter table POST add constraint FK_CONTENIRPOST foreign key (ID_SECT)
       references SECTION (ID_SECT) on delete restrict on update restrict;
