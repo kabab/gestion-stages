@@ -6,6 +6,8 @@ if (preg_match('#^/web/#', $_SERVER["REQUEST_URI"])) {
 
 require 'vendor/autoload.php';
 require 'Services/autoload.php';
+require 'Models/autoload.php';
+
 
 $klein = new Klein\Klein();
 
