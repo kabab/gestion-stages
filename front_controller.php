@@ -1,6 +1,7 @@
 <?php
 
 require 'vendor/autoload.php';
+require 'Services/autoload.php';
 
 $klein = new Klein\Klein();
 
@@ -8,17 +9,17 @@ $klein = new Klein\Klein();
  * run for all paths
  */
 $klein->respond(function($request, $response, $service, $app) {
-    
+
     // Configure serverices
     // Smarty template engine
     $app->register('smarty', function() {
         $smarty = new Smarty();
 
         $smarty->template_dir = __DIR__ . "cache/smarty/templates";
-        $smarty->compile_dir  = __DIR__ . "cache/smarty/templates_c";
-        $smarty->cache_dir    = __DIR__ . "cache/smarty/cache";
-        $smarty->config_dir   = __DIR__ . "cache/smarty/configs";
-        
+        $smarty->compile_dir = __DIR__ . "cache/smarty/templates_c";
+        $smarty->cache_dir = __DIR__ . "cache/smarty/cache";
+        $smarty->config_dir = __DIR__ . "cache/smarty/configs";
+
         $smarty->assign('__DIR__', __DIR__);
 
         return $smarty;
